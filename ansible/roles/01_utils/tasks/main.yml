@@ -36,7 +36,6 @@
     - python3-pymysql
     - python-pymysql
     - php
-    - composer
     - imagemagick
 
 - name: 4 register pip3 executable
@@ -62,4 +61,12 @@
   loop: "{{ php_extensions }}"
   notify: restart_webserver
 
+- name: 8 download composer
+  get_url:
+    url: 'https://getcomposer.org/installer'
+    dest: '{{ src_dir }}/composer-setup.php'
 
+- name: 9 setup composer
+  command:
+    chdir: '{{ src_dir }}'
+    cmd: 'php composer-setup.php --install-dir={{ bin_dir }} --filename=composer'
