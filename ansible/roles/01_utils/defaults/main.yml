@@ -1,6 +1,7 @@
 # vars values defined here roleX/defaults/main.yml are overwritten by inventory var values
 # precedence (hightest 1st): -e "var=val", roleX/vars/main.yml, inventory, roleX/defaults/main.yml 
-
+bin_dir: '/usr/local/bin'
+src_dir: '/usr/local/src'
 php_extensions:
   - "php-common"
   - "php-cli"

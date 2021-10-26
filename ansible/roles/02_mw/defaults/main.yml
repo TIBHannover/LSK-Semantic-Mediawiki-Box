@@ -44,7 +44,7 @@ extensions_bundled:
 
 extensions_composer:
   - ext_name: "Bootstrap"
-    composer_cmd: '--no-update mediawiki/bootstrap:~4.0'
+    composer_cmd: 'mediawiki/bootstrap:~4.0'
     load_strs:
       - "wfLoadExtension( 'Bootstrap' );"
   - ext_name: "Semantic Mediawiki"

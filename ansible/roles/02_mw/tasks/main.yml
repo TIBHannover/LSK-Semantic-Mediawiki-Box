@@ -140,14 +140,36 @@
     - '{{ extensions_bundled }}'
 
 # extensions - Composer
-- name: Install Composer Extensions
-  command:
-    cmd: composer require {{ item.composer_cmd }} --update-no-dev --quiet
+- name: touch composer.local.json file
+  copy:
+    src: composer.local.json
+    dest: '{{ mw.fullpath }}/composer.local.json'
+    mode: u=rw,g=rw,o=rw
+
+- name: Require Composer Extensions
+  shell:
+    cmd: |
+      COMPOSER=composer.local.json composer require --no-update "{{ item.composer_cmd }}"
     chdir: '{{ mw.fullpath }}'
   with_items:
     - '{{ extensions_composer }}'
+  become: false
+  become_user: '{{ ansible_ssh_user }}'
 
-- name: Enable Composer Extensions
+# - name: create and allow writing to composer.lock
+#   file:
+#     path: '{{ mw.fullpath }}/composer.lock'
+#     state: touch
+#     mode: a+rw
+
+- name: Composer update
+  command:
+    cmd: 'composer update --no-dev'
+    chdir: '{{ mw.fullpath }}'
+  # become: false
+  # become_user: '{{ ansible_ssh_user }}'
+
+- name: Enable Composer Extensions in LocalSettings.php
   lineinfile:
     path: '{{ mw.fullpath }}/LocalSettings.php'
     insertafter: 'EOF'
@@ -181,11 +203,19 @@
 
 
 # skin
-- name: Install Chameleon Skin (LSK Fork)
+# - name: Install Chameleon Skin (LSK Fork)
+#   git:
+#     repo: 'https://github.com/TIBHannover/chameleon.git'
+#     dest: '{{ mw.fullpath }}/skins/chameleon'
+#     version: '{{ mw.chameleon_skin_branch }}'
+#     depth: 1
+#     force: yes
+
+- name: Install Chameleon Skin (upstream)
   git:
-    repo: 'https://github.com/TIBHannover/chameleon.git'
+    repo: 'https://github.com/ProfessionalWiki/chameleon.git'
     dest: '{{ mw.fullpath }}/skins/chameleon'
-    version: '{{ mw.chameleon_skin_branch }}'
+    version: 'master'
     depth: 1
     force: yes
 
