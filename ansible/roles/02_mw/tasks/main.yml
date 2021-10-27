@@ -16,16 +16,7 @@
     version: "{{ mediawiki_version|default('HEAD') }}"
     depth: 1
     force: yes
-  register: git_clone_mw
-
-  # when: not stat_mediawiki_repo.stat.exists
-  # retries: 3
-  # delay: 3
-
-- name: print git_clone_mw
-  debug:
-    msg: '{{ git_clone_mw }}'
-
+  when: not stat_mediawiki_repo.stat.exists
 
 - name: 4 Create wiki db 
   mysql_db:
