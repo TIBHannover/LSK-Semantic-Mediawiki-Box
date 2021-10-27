@@ -195,21 +195,21 @@
 
 
 # skin
-- name: Install Chameleon Skin (LSK Fork)
-  git:
-    repo: 'https://github.com/TIBHannover/chameleon.git'
-    dest: '{{ mw.fullpath }}/skins/chameleon'
-    version: '{{ mw.chameleon_skin_branch }}'
-    depth: 1
-    force: yes
-
-# - name: Install Chameleon Skin (upstream)
+# - name: Install Chameleon Skin (LSK Fork)
 #   git:
-#     repo: 'https://github.com/ProfessionalWiki/chameleon.git'
+#     repo: 'https://github.com/TIBHannover/chameleon.git'
 #     dest: '{{ mw.fullpath }}/skins/chameleon'
-#     version: 'master'
+#     version: '{{ mw.chameleon_skin_branch }}'
 #     depth: 1
 #     force: yes
+
+- name: Install Chameleon Skin (upstream)
+  git:
+    repo: 'https://github.com/ProfessionalWiki/chameleon.git'
+    dest: '{{ mw.fullpath }}/skins/chameleon'
+    version: 'master'
+    depth: 1
+    force: yes
 
 - name: Enable Chameleon Skin
   blockinfile:
@@ -217,8 +217,8 @@
     insertafter: EOF
     block: | 
       wfLoadSkin( 'chameleon' );
-      $egChameleonLayoutFile = __DIR__ . '/skins/chameleon/layouts/custom.xml';
-      $egChameleonExternalStyleModule =  __DIR__ . '/skins/chameleon/resources/styles/custom.scss';
+#      $egChameleonLayoutFile = __DIR__ . '/skins/chameleon/layouts/custom.xml';
+#      $egChameleonExternalStyleModule =  __DIR__ . '/skins/chameleon/resources/styles/custom.scss';
 
 - name: Chameleon skin as default
   replace:
