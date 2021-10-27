@@ -58,18 +58,10 @@ extensions_composer:
       - "$smwgChangePropagationProtection=true;"
       - "$smwgPageSpecialProperties=array_merge($smwgPageSpecialProperties, ['_LEDT', '_CDAT', '_NEWP' ]);"
       - "$wgCapitalLinks=false;"
-  - ext_name: "Semantic Cite"
-    composer_cmd: 'mediawiki/semantic-cite "{{semanticite_version}}"'
-    load_strs: 
-      - "wfLoadExtension( 'SemanticCite' );"
   - ext_name: "Semantic Result Formats"
     composer_cmd: 'mediawiki/semantic-result-formats "{{semanticformats_version}}"'
     load_strs:
       - "wfLoadExtension( 'SemanticResultFormats' );"
-  - ext_name: "Maps"
-    composer_cmd: 'mediawiki/maps "{{maps_version}}"'
-    load_strs:
-      - "wfLoadExtension( 'Maps' );" 
 
 
 extensions_git:
@@ -87,17 +79,9 @@ extensions_git:
     dest: '{{ mw.fullpath }}/extensions/ParserFunctions'
     load_strs: 
       - "wfLoadExtension( 'ParserFunctions' );"
-  - ext_name: 'Interwiki'
-    enable: true
-    repo: 'https://gerrit.wikimedia.org/r/mediawiki/extensions/Interwiki.git'
-    version: '{{ mediawiki_version }}'
-    dest: '{{ mw.fullpath }}/extensions/Interwiki'
-    load_strs: 
-      - "wfLoadExtension( 'Interwiki' );"
-      - "$wgGroupPermissions['sysop']['interwiki'] = true;"
   - ext_name: 'AdminLinks'
     enable: true
-    repo: 'https://gerrit.wikimedia.org/r/mediawiki/extensions/AdminLinks.git'
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-AdminLinks.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mw.fullpath }}/extensions/AdminLinks'
     load_strs: 
@@ -109,13 +93,6 @@ extensions_git:
     dest: '{{ mw.fullpath }}/extensions/ReplaceText'
     load_strs: 
       - "wfLoadExtension( 'ReplaceText' );"
-  - ext_name: 'SemanticDrilldown'
-    enable: true
-    repo: 'https://github.com/wikimedia/mediawiki-extensions-SemanticDrilldown.git'
-    version: '{{ mediawiki_version }}'
-    dest: '{{ mw.fullpath }}/extensions/SemanticDrilldown'
-    load_strs:  
-      - 'require_once "$IP/extensions/SemanticDrilldown/SemanticDrilldown.php";'
   - ext_name: 'ConfirmAccount'
     enable: true
     repo: 'https://github.com/wikimedia/mediawiki-extensions-ConfirmAccount.git'

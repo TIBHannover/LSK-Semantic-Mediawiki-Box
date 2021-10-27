@@ -23,10 +23,10 @@ Vagrant.configure("2") do |config|
     ansible.pip_args = "ansible==2.10.7"
     ansible.playbook = "ansible/playbook.yml"
     ansible.inventory_path = "hosts-box.yml"
-    ansible.verbose = "true"
+    ansible.verbose = "false"
     ansible.config_file = "ansible/ansible.cfg"
     ansible.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
     # ansible.start_at_task = "touch composer.local.json file"
     # ansible.tags = "mw"  # limit playbook execution to tag
   end
-end
+end 

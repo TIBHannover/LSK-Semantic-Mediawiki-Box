@@ -16,7 +16,16 @@
     version: "{{ mediawiki_version|default('HEAD') }}"
     depth: 1
     force: yes
-  when: not stat_mediawiki_repo.stat.exists
+  register: git_clone_mw
+
+  # when: not stat_mediawiki_repo.stat.exists
+  # retries: 3
+  # delay: 3
+
+- name: print git_clone_mw
+  debug:
+    msg: '{{ git_clone_mw }}'
+
 
 - name: 4 Create wiki db 
   mysql_db:
@@ -156,18 +165,10 @@
   become: false
   become_user: '{{ ansible_ssh_user }}'
 
-# - name: create and allow writing to composer.lock
-#   file:
-#     path: '{{ mw.fullpath }}/composer.lock'
-#     state: touch
-#     mode: a+rw
-
 - name: Composer update
   command:
     cmd: 'composer update --no-dev'
     chdir: '{{ mw.fullpath }}'
-  # become: false
-  # become_user: '{{ ansible_ssh_user }}'
 
 - name: Enable Composer Extensions in LocalSettings.php
   lineinfile:
@@ -203,21 +204,21 @@
 
 
 # skin
-# - name: Install Chameleon Skin (LSK Fork)
-#   git:
-#     repo: 'https://github.com/TIBHannover/chameleon.git'
-#     dest: '{{ mw.fullpath }}/skins/chameleon'
-#     version: '{{ mw.chameleon_skin_branch }}'
-#     depth: 1
-#     force: yes
-
-- name: Install Chameleon Skin (upstream)
+- name: Install Chameleon Skin (LSK Fork)
   git:
-    repo: 'https://github.com/ProfessionalWiki/chameleon.git'
+    repo: 'https://github.com/TIBHannover/chameleon.git'
     dest: '{{ mw.fullpath }}/skins/chameleon'
-    version: 'master'
+    version: '{{ mw.chameleon_skin_branch }}'
     depth: 1
     force: yes
+
+# - name: Install Chameleon Skin (upstream)
+#   git:
+#     repo: 'https://github.com/ProfessionalWiki/chameleon.git'
+#     dest: '{{ mw.fullpath }}/skins/chameleon'
+#     version: 'master'
+#     depth: 1
+#     force: yes
 
 - name: Enable Chameleon Skin
   blockinfile:
